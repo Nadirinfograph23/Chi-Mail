@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
         root.addView(bar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(60)));
 
         ImageView logo = new ImageView(this);
-        logo.setImageResource(com.chilyacatering.chimail.R.drawable.chilya_brand);
+        logo.setImageResource(com.chilyacatering.chimail.R.mipmap.chilya_icon_foreground);
         logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
         bar.addView(logo, new LinearLayout.LayoutParams(dp(40), dp(40)));
 

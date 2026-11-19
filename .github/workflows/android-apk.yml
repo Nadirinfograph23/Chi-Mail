@@ -20,6 +20,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npx cap add android
+      - run: npx cap sync android
       - name: Install secure native WebView activity
         run: |
           mkdir -p android/app/src/main/java/com/chilyacatering/chimail
@@ -94,7 +95,6 @@ jobs:
           brand_canvas.alpha_composite(brand,((192-brand.width)//2,(192-brand.height)//2))
           brand_canvas.save(brand_dir/"chilya_brand.png")
           PY
-      - run: npx cap sync android
       - name: Build debug APK
         working-directory: android
         run: chmod +x gradlew && ./gradlew assembleDebug
