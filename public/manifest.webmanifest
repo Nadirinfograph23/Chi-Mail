@@ -1,8 +1,9 @@
 {
-  "name": "CHI MAIL",
+  "name": "CHI MAIL | CHILYA Catering",
   "short_name": "CHI MAIL",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f7f5",
-  "theme_color": "#f2ca00"
+  "background_color": "#090909",
+  "theme_color": "#ffd21a",
+  "icons": [{"src":"/chilya-logo.png","sizes":"192x192","type":"image/png"},{"src":"/chilya-logo.png","sizes":"512x512","type":"image/png"}]
 }
