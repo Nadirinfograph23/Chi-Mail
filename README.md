@@ -1,12 +1,27 @@
 # CHI MAIL — CHILYA CATERING
 
-A responsive CHILYA-branded mail workspace starter.
+Android email application project for CHILYA CATERING.
 
 ## Project status
-This repository is being initialized. The first UI build is a demonstration only: it does not connect to a mailbox, send or receive real email, or retain the temporary inspection credentials.
 
-## Security boundary
-The credentials used to inspect the existing webmail are not included in this repository. Do not commit passwords, cookies, session tokens, or private keys.
+The current UI is a temporary scaffold/demo and is **not yet connected to a real mailbox**. Do not distribute it as a functional email client.
 
-## Android APK
-The Android build pipeline will be added after the application source is committed. A downloadable APK will only be published after a successful Android build.
+## Agent handoff — read first
+
+Before changing the project or building a production APK, read **[mail.md](./mail.md)**. It contains the authoritative product requirements, architecture decision, security rules, implementation phases, Android WebView requirements, and acceptance checklist.
+
+The target live mail service is:
+
+- https://webmail.chilya-catering.com/
+
+The Android app must use the real service for login, mail folders, send/receive, and attachments. Each user signs in with their own account. Credentials previously supplied for inspection must never be embedded or committed.
+
+## Branding and Android build
+
+- App name: CHI MAIL
+- Application ID: `com.chilyacatering.chimail`
+- Brand: CHILYA CATERING (black/yellow)
+- Logo: `public/chilya-logo.jpg`
+- GitHub Actions workflow: `.github/workflows/android-apk.yml`
+
+A successful APK compilation is not proof of mail functionality. Publish a production APK only after the real login, send, receive, and attachment tests in `mail.md` pass.
