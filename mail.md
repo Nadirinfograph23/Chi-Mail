@@ -206,3 +206,12 @@ Required tests:
 - Artifact: `CHI-MAIL-Android-APK` (3,742,344 bytes; retained until 2026-12-19).
 - This verifies that the build generated the launcher icon files from `public/chilya-logo.jpg` and packaged the APK. It does not prove the icon's visual appearance on a device or verify live mailbox functions.
 - Physical Android testing of sign-in, sending, receiving, attachments, and push notifications remains outstanding.
+
+
+## 11. Branding correction — 2026-11-19
+
+- Root cause confirmed: the production Android activity loads the live webmail URL directly, so the separate Next.js demo/scaffold UI and its black/yellow navigation are not part of the live mail service.
+- Added a native CHI MAIL top bar above the real webmail WebView: CHILYA logo, yellow CHI MAIL title, CHILYA CATERING subtitle, black background, yellow accent line, and a working refresh button. Mail folders and mail actions continue to come from the authenticated webmail service; no fake folder routing was added.
+- Updated Android build workflow to explicitly set launcher icon and roundIcon in AndroidManifest, generate legacy density icons and Android 8+ adaptive icon XML/resources from `public/chilya-logo.jpg`, and create the same logo asset for the in-app toolbar.
+- The Android build must pass before distributing this revision. Physical-device visual confirmation of the logo and toolbar is still required.
+- Note: the Next.js demo page remains a scaffold and is not loaded by the production native wrapper. Do not present its hard-coded sample messages as real mail.
