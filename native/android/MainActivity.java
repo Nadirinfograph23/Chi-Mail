@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.WindowManager;
@@ -23,11 +24,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.core.view.WindowCompat;
+
 public class MainActivity extends Activity {
     private static final String HOME = "https://webmail.chilya-catering.com/";
     private static final String ALLOWED_HOST = "webmail.chilya-catering.com";
     private static final int FILE_CHOOSER_REQUEST = 7101;
-    // Sampled from the authenticated CHILYA webmail interface supplied by the user.
     private static final int WEBMAIL_BG = Color.rgb(32, 43, 46);
 
     private WebView webView;
@@ -41,19 +43,28 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
 
-        // Keep Android system bars visually continuous with the real webmail UI.
+        // Explicitly keep WebView inside the safe content area. This prevents
+        // Android 15/API 35 edge-to-edge enforcement from drawing the page
+        // underneath the status/navigation bars and clipping the webmail header.
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         getWindow().setStatusBarColor(WEBMAIL_BG);
         getWindow().setNavigationBarColor(WEBMAIL_BG);
         getWindow().getDecorView().setSystemUiVisibility(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getWindow().setStatusBarContrastEnforced(false);
+            getWindow().setNavigationBarContrastEnforced(false);
+        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        // Do not add a second, app-specific toolbar here. The website already
-        // provides its own folder menu, search, refresh, overflow and compose controls.
+        // The live website supplies its own folder menu, search, refresh,
+        // overflow and compose controls. Do not overlay a duplicate native bar.
         webView = new WebView(this);
         webView.setBackgroundColor(WEBMAIL_BG);
         webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
+        webView.setFocusable(true);
+        webView.setFocusableInTouchMode(true);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
