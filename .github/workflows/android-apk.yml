@@ -35,7 +35,7 @@ jobs:
           root.set(a + "allowBackup", "false")
           perms = {x.get(a + "name") for x in root.findall("uses-permission")}
           if "android.permission.INTERNET" not in perms:
-              ET.SubElement(root, "uses-permission", {a + "name": "android.permission.INTERNET"})
+              root.insert(list(root).index(root.find("application")), ET.Element("uses-permission", {a + "name": "android.permission.INTERNET"}))
           for activity in root.findall(".//activity"):
               for filt in activity.findall("intent-filter"):
                   actions = [x.get(a + "name") for x in filt.findall("action")]
