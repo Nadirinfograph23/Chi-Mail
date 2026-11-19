@@ -20,6 +20,31 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npx cap add android
+      - name: Install secure native WebView activity
+        run: |
+          mkdir -p android/app/src/main/java/com/chilyacatering/chimail
+          cp native/android/MainActivity.java android/app/src/main/java/com/chilyacatering/chimail/MainActivity.java
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          p = "android/app/src/main/AndroidManifest.xml"
+          ET.register_namespace("android", "http://schemas.android.com/apk/res/android")
+          tree = ET.parse(p)
+          root = tree.getroot()
+          a = "{http://schemas.android.com/apk/res/android}"
+          root.set(a + "usesCleartextTraffic", "false")
+          root.set(a + "allowBackup", "false")
+          perms = {x.get(a + "name") for x in root.findall("uses-permission")}
+          if "android.permission.INTERNET" not in perms:
+              ET.SubElement(root, "uses-permission", {a + "name": "android.permission.INTERNET"})
+          for activity in root.findall(".//activity"):
+              for filt in activity.findall("intent-filter"):
+                  actions = [x.get(a + "name") for x in filt.findall("action")]
+                  cats = [x.get(a + "name") for x in filt.findall("category")]
+                  if "android.intent.action.MAIN" in actions and "android.intent.category.LAUNCHER" in cats:
+                      activity.set(a + "name", ".MainActivity")
+                      activity.set(a + "exported", "true")
+          tree.write(p, encoding="utf-8", xml_declaration=True)
+          PY
       - name: Apply CHILYA launcher icon
         run: |
           python3 -m pip install --quiet Pillow
