@@ -40,6 +40,7 @@ jobs:
               round_icon = canvas.copy()
               round_icon.putalpha(mask)
               round_icon.save(folder/"ic_launcher_round.png")
+          PY
       - run: npx cap sync android
       - name: Build debug APK
         working-directory: android
