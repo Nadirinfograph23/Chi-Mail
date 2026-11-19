@@ -187,12 +187,22 @@ Required tests:
 - [x] Black/yellow responsive demo UI exists as a temporary scaffold.
 - [x] User clarified that the previously supplied mailbox credentials are for inspecting platform structure only.
 - [ ] Live webmail page and real folder routes inspected and documented.
-- [ ] WebView compatibility verified against the live service.
-- [ ] Native Android WebView wrapper implemented.
+- [ ] WebView compatibility verified against the live service (not yet tested from a physical Android device).
+- [x] Native Android WebView wrapper implemented in `native/android/MainActivity.java` and installed by the APK workflow.
 - [ ] Demo UI removed from the production APK path.
-- [ ] File chooser and download support implemented and tested.
+- [x] Android file chooser and authenticated HTTPS download handling implemented in the native wrapper (physical-device testing still required).
 - [ ] Real login/send/receive/attachment flows tested on Android.
 - [ ] Native push source/backend evaluated and implemented only if supported.
 - [ ] Final APK installed and verified on a physical Android device.
 
 **Next agent instruction:** Start with Phase A. Do not claim the app is a real email client until Phase C's login, send, receive, and attachment tests pass. If the live site cannot be inspected from the current environment, state that blocker and ask for the minimum required access or screenshots; do not invent the platform type or its folder URLs.
+
+
+## 10. Build verification — 2026-11-19
+
+- GitHub Actions run #19: https://github.com/Nadirinfograph23/Chi-Mail/actions/runs/44512725750
+- Commit: `f4e819338a642173b7bd8730b6a9dca8be167de4`
+- Result: **success**. The steps `npm run build`, Capacitor Android setup, secure native WebView installation, **Apply CHILYA launcher icon**, Capacitor sync, `assembleDebug`, and artifact upload all completed successfully.
+- Artifact: `CHI-MAIL-Android-APK` (3,742,344 bytes; retained until 2026-12-19).
+- This verifies that the build generated the launcher icon files from `public/chilya-logo.jpg` and packaged the APK. It does not prove the icon's visual appearance on a device or verify live mailbox functions.
+- Physical Android testing of sign-in, sending, receiving, attachments, and push notifications remains outstanding.
